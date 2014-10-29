@@ -4,19 +4,27 @@ dificultad=0
 matrizlog = []
 cantBarcos=0
 
+def printopcion():
+    print("╔════════════════╗","\n","   1. Jugador vs Jugador","\n","   2. Jugador vs Computador")
+    print("╚════════════════╝")
+
+
 def start():
-    modalidad=int(input("Digite la modalidad (1 PvP 2PVC)..."))
+    printopcion()
+    modalidad=int(input("Presione la opcion  1/2: "))
     while(modalidad != 1 and modalidad !=2 ):
         print("Digite una opcion valida")
-        modalidad=int(input("Digite la modalidad (1 PvP 2PVC)..."))
+        printopcion()
     nombreJugador1=input("Digite el nombre del Jugador 1...")
     if modalidad == 1:
         nombreJugador2=input("Digite el nombre del Jugador 2...")
+        
     dificultad =  int(input("Digite la dificultad (1 facil  2medio 3 dificil)"))
     while(dificultad != 1 and dificultad !=2 and dificultad!=3):
         print("Digite una opcion valida")
         dificultad =  int(input("Digite la dificultad (1 facil  2medio 3 dificil)"))
-    cantBarcos =  int(input("Digite la cantidad de barcos..."))
+
+    #cantBarcos =  int(input("Digite la cantidad de barcos..."))
     matriz()
         
 def matriz():
