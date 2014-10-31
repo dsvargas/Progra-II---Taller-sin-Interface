@@ -32,10 +32,10 @@
 24.	VerEstadisticas();
 
 '''
-campos = 0
+
 x=0
 y=0
-
+campos = 0
 nombreJugador1=""
 nombreJugador2=""
 
@@ -50,6 +50,17 @@ def popcion():
 def pseleccion():
     print("╔══════════════════════╗","\n","  Seleccionar la cantidad elementos ","\n","   mínimo 1 elementos por partida")
     print("╚══════════════════════╝")
+
+def MatrizJuegador1():
+    print("═════════ Jugador 1 ════════════")
+    for i in matrizJugador1:
+        print(i)
+    print("═════════════════════")
+def MatrizJugador2():
+    print("═════════ Jugador 2 ════════════")
+    for i in matrizJugador2:
+        print(i)
+    print("═════════════════════")
 
 def matriz():
     global x
@@ -66,7 +77,8 @@ def matriz():
         matrizJugador2.append([0]*y)
 
 
-def CantidadElementos():
+def CantidadElementos(): # digita la cantidad de barcos y me valida que hayan mas de 1 elementos o uno
+    # y que los elementos no sean mas que la mitad de todos los campos de la matriz
     pseleccion()
     global numElementos
     try:
@@ -83,11 +95,20 @@ def CantidadElementos():
 def colocarElementos():
     conta1=0
     conta2=0
+    while conta1 < numElementos: # coloca la cantidad de  elementos que el usuario ingreso
+        MatrizJuegador1()
+        try:
+            i=int(input("Digite la fila donde quiere colocar el elemento"))
+        except:
+            print("Solo numeros")
+            i=int(input("Digite la fila donde quiere colocar el elemento"))
+        try:
+            j=int(input("Digite la columna donde quiere colocar el elemento"))
+        except:
+            print("Solo numeros")
+            j=int(input("Digite la fila donde quiere colocar el elemento"))
 
-    while conta1 < numElementos:
-        i=int(input("Digite la fila donde quiere colocar el elemento"))
-        j=int(input("Digite la columna donde quiere colocar el elemento"))
-        if i < 0 or i > x-1 or j < 0 or j > y-1:
+        if i < 0 or i > x-1 or j < 0 or j > y-1: # valida que no se salga de rango de la matriz
             print("Posicion invalida")
         elif matrizJugador1[i][j]!=0:
             print("Campo esta ocupado")
@@ -96,6 +117,7 @@ def colocarElementos():
             conta1+=1
     if modalidad == 1:
         while conta2 < numElementos:
+            MatrizJugador2()
             i=int(input("Digite la fila donde quiere colocar el elemento"))
             j=int(input("Digite la columna donde quiere colocar el elemento"))
             if i < 0 or i > x-1 or j < 0 or j > y-1:
@@ -105,6 +127,7 @@ def colocarElementos():
             else:
                 matrizJugador2[i][j]=1
                 conta2+=1
+
 
 def start():
     popcion()
@@ -129,4 +152,7 @@ def start():
     colocarElementos()
 
 start()
+#matriz()
+#MatrizJuegador1()
+
 
