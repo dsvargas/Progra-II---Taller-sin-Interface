@@ -83,7 +83,6 @@ def colocarElementos():
     conta1 = 0
     conta2 = 0
     while conta1 < numElementos:  # coloca la cantidad de  elementos que el usuario ingreso
-        MatrizJuegador1()
         try:
             i = int(input("Digite la fila donde quiere colocar el elemento "))
             j = int(input("Digite la columna donde quiere colocar el elemento "))
@@ -99,10 +98,10 @@ def colocarElementos():
         else:
             matrizJugador1[i - 1][j - 1] = 1
             conta1 += 1
+            MatrizJuegador1()
 
     if modalidad == 1:
         while conta2 < numElementos:
-            MatrizJugador2()
             i = int(input("Digite la fila donde quiere colocar el elemento "))
             j = int(input("Digite la columna donde quiere colocar el elemento "))
             if i < 0 or i > x or j < 0 or j > y:
@@ -112,6 +111,7 @@ def colocarElementos():
             else:
                 matrizJugador2[i - 1][j - 1] = 1
                 conta2 += 1
+                MatrizJugador2()
     else:
         while conta2 < numElementos:
             fila = random.randint(0, x - 1)
@@ -119,14 +119,17 @@ def colocarElementos():
             if matrizJugador2[fila][columna] == 0:
                 matrizJugador2[fila][columna] = 1
                 conta2 += 1
-                MatrizJugador2()
+
 
 def turnos():
-    win = False
+    win1 = False
+    win2 = False
     jugador1 = False
     jugador2 = False
+    global barcos1
+    global barcos2
 
-    while win == False:
+    while win1 == False and win2 == False:
         while jugador1 == False:
             print("Turno jugador ", nombreJugador1)
             fila = int(input("Indique la fila donde desea tirar la bomba: "))
@@ -135,16 +138,36 @@ def turnos():
                 print("La posicion no es valida")
             else:
                 jugador1 = ataque(1)
-
-        while jugador2 == False:
-            print("Turno jugador ", nombreJugador2)
-            fila = int(input("Indique la fila donde desea tirar la bomba: "))
-            columna = int(input("Indique la columna donde desea tirar la bomba:"))
-            if fila >= len(matrizJugador1) or columna >= len(matrizJugador1[0]):
-                print("La posicion no es valida")
-            else:
-                jugador2 = ataque(2)
-
+                if jugador1==False:
+                    barcos1+=1
+                    if(barcos1==numElementos):
+                        win1=True
+        if modalidad == 1:
+            while jugador2 == False:
+                print("Turno jugador ", nombreJugador2)
+                fila = int(input("Indique la fila donde desea tirar la bomba: "))
+                columna = int(input("Indique la columna donde desea tirar la bomba:"))
+                if fila >= len(matrizJugador1) or columna >= len(matrizJugador1[0]):
+                    print("La posicion no es valida")
+                else:
+                    jugador2 = ataque(2)
+                    if jugador2==False:
+                        barcos2+=1
+                        if(barcos2==numElementos):
+                            win2=True
+        else:
+            while jugador2 == False:
+                print("Turno jugador  Computadora")
+                fila = random.randint(0, x - 1)
+                columna = random.randint(0, y - 1)
+                if fila >= len(matrizJugador1) or columna >= len(matrizJugador1[0]):
+                    print("La posicion no es valida")
+                else:
+                    jugador2 = ataque(2)
+                    if jugador2==False:
+                        barcos2+=1
+                        if(barcos2==numElementos):
+                            win2=True
 
 def ataque(jugador):
     global aciertos1
@@ -173,10 +196,6 @@ def ataque(jugador):
             print("¡Blanco fallado!")
             fallos2 += 1
             return True
-
-
-def estadisticas():
-    contarBarcos()
 
 
 def start():
