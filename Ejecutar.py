@@ -12,8 +12,6 @@ matrizJugadas2 = []  # Matriz jugadas
 numElementos = 0  # cantidad de elementos que participan en la partida para ambos jugadores va a ser igual
 win = False  # S guarda en false y cambia hasta que uno de los dos jugadores cambie
 modalidad = 0  # Guarda si se juega con uno o con dos jugadores
-barcos1 = 0
-barcos2 = 0
 fallos1 = 0
 aciertos1 = 0
 fallos2 = 0
@@ -42,8 +40,14 @@ def MatrizJugador2():  # funcion q1ue imprime la matriz del jugador 2
     for i in matrizJugador2:  # recorre la matriz
         print(i)  # imprime las filas de la matriz
     print("════════════════════════════")
-
-
+def Matrizjugada1():
+    print("═════════ Jugadas jugador 1 ════════════")
+    for i in matrizJugadas1:  # recorre la matriz
+        print(i)  # imprime las filas de la matriz
+def Matrizjugada2():
+    print("═════════ Jugadas jugador 2 ════════════")
+    for i in matrizJugadas2:  # recorre la matriz
+        print(i)  # imprime las filas de la matriz
 # ################################################################################################################
 def matriz():
     global x
@@ -119,85 +123,104 @@ def colocarElementos():
             if matrizJugador2[fila][columna] == 0:
                 matrizJugador2[fila][columna] = 1
                 conta2 += 1
-
+        MatrizJugador2()
 
 def turnos():
+    global modalidad
     win1 = False
-    win2 = False
+    win2 = False # variables para saber quien gana
     jugador1 = False
-    jugador2 = False
-    global barcos1
-    global barcos2
+    jugador2 = False #utilizadas para saber el turno del juegador
+    global aciertos1
+    global aciertos2
 
-    while win1 == False and win2 == False:
-        while jugador1 == False:
-            print("Turno jugador ", nombreJugador1)
-            fila = int(input("Indique la fila donde desea tirar la bomba: "))
-            columna = int(input("Indique la columna donde desea tirar la bomba:"))
-            if fila >= len(matrizJugador2) or columna >= len(matrizJugador2[0]):
-                print("La posicion no es valida")
-            else:
-                jugador1 = ataque(1)
-                if jugador1==False:
-                    barcos1+=1
-                    if(barcos1==numElementos):
-                        win1=True
-        if modalidad == 1:
-            while jugador2 == False:
-                print("Turno jugador ", nombreJugador2)
-                fila = int(input("Indique la fila donde desea tirar la bomba: "))
-                columna = int(input("Indique la columna donde desea tirar la bomba:"))
-                if fila >= len(matrizJugador1) or columna >= len(matrizJugador1[0]):
-                    print("La posicion no es valida")
-                else:
-                    jugador2 = ataque(2)
-                    if jugador2==False:
-                        barcos2+=1
-                        if(barcos2==numElementos):
-                            win2=True
+    while win1 == False and win2 == False:  # Mientras ninguno de los dos jugadores hayan ganado
+        jugador2 = False
+        print("cosita pechocha")
+        while jugador1 == False and win1 ==False and win2 != True:  # Mientras jugador dos no haya ganado
+            print("Turno jugador ", nombreJugador1)  # Nombre del jugador 1
+            Matrizjugada1() # Imprime una matriz para ver donde se van colocando las bombas
+            fila = int(input("Indique la fila donde desea tirar la bomba: "))  #Indica la fila donde se coloca la bomba
+            columna = int(input("Indique la columna donde desea tirar la bomba:"))  #Indica la columna donde se coloca la bomba
+            if fila > len(matrizJugador2) or columna > len(matrizJugador2[0]) or fila==0 or columna==0:  #Si se sale de el rango de la matriz
+                print("La posicion no es valida") # no hace nada
+            else:  # si entra en el rango de la matriz
+                jugador1 = ataque(1)  # ver si el jugador acerto y llama a ataque
+                if jugador1==False:  # le da permiso al jugador1 para poner la bomba
+                    if(aciertos1==numElementos):  # si los aciertos de el jugador 1 y el nimero de elementos es igual
+                        win1=True # le da el gane a jugador 1
+                        break
+        jugador1 = False
+        if (modalidad == 1) and (win1 == False) and (win2 != True):  # mientras jugador uno no haya ganado
+            while jugador2 == False: # le da permiso para jugar al jugador 2
+                print("Turno jugador ", nombreJugador2)  # nombre del jugador
+                matrizJugadas2()  # Imprime una matriz para ver donde se colocan las bombas
+                fila = int(input("Indique la fila donde desea tirar la bomba: "))  # Indica la fila donde se coloca la bomba
+                columna = int(input("Indique la columna donde desea tirar la bomba:"))  # Indica la columna donde se coloca la bomba
+                if fila >= len(matrizJugador1) or columna >= len(matrizJugador1[0]): # si se sale de el rango de la matriz
+                    print("La posicion no es valida") #no hace nada
+                else:  # si entra en el rango de la matriz
+                    jugador2 = ataque(2)  #ver si el jugador acerto y llama a ataque
+                    if jugador2==False:  #le da permiso al jugador 2 para poner la bomba
+                      aciertos2 += 1  #suma los aciertos del jugador 2
+                      if(aciertos2==numElementos):
+                        win2=True
+                        break
         else:
-            while jugador2 == False:
+            while jugador2 == False and  win1 == False and win2 != True:
                 print("Turno jugador  Computadora")
-                fila = random.randint(0, x - 1)
-                columna = random.randint(0, y - 1)
+                fila = random.randint(1, x - 1)
+                columna = random.randint(1, y - 1)
                 if fila >= len(matrizJugador1) or columna >= len(matrizJugador1[0]):
                     print("La posicion no es valida")
                 else:
                     jugador2 = ataque(2)
                     if jugador2==False:
-                        barcos2+=1
-                        if(barcos2==numElementos):
+                        if(aciertos2==numElementos):
                             win2=True
+                            break
+    estadisticas()
 
 def ataque(jugador):
     global aciertos1
     global fallos1
     global aciertos2
     global fallos2
-    if jugador == 1:
-        if matrizJugador2[fila][columna] == 1:
-            matrizJugador2[fila - 1][columna - 1] = 0
-            print("¡Blanco acertado!")
-            aciertos1 += 1
-            matrizJugadas1[fila][columna] = 2
-            return False
-        else:
+    if jugador == 1:  # Indica de quien es el turno para jugar
+        if matrizJugador2[fila][columna] == 1:  # Revisa la posicion de la matriz para ver si hay barcos
+            matrizJugador2[fila][columna] = 0  # si lo encuentra lo cambia por un 0
+            print("¡Blanco acertado!")  # si le dio al barco
+            aciertos1 += 1  #si el jugador1 acierta el blanco
+            matrizJugadas1[fila][columna] = 2  # me dice donde coloque una bomba
+            return False  # retorna false si acierta un barco, para que siga jugando el jugador actual
+        else:  # Fallo el blanco
             print("¡Blanco fallado!")
-            fallos1 += 1
-            return True
-    else:
-        if matrizJugador1[fila][columna] == 1:
-            matrizJugador1[fila - 1][columna - 1] = 0
-            print("¡Blanco acertado!")
-            aciertos2 += 1
+            fallos1 += 1  # aumenta el contador de fallos de el jugador 1
             matrizJugadas2[fila][columna] = 2
-            return False
-        else:
+            return True # retorna true para que juegue el otro jugador
+    else:  # turno del segundo jugador
+        if matrizJugador1[fila][columna] == 1:  #Revisa la posicion de la matriz para ver si hay barcos
+            matrizJugador1[fila][columna] = 0  # si lo encuentra lo cambia por 0
+            print("¡Blanco acertado!")  # si le dio al barco
+            aciertos2 += 1  # si el jugador 2 acierta
+            matrizJugadas2[fila][columna] = 2  # me dice donde coloque la bomba
+            return False # retorna false para que siga jugando el jugador 2
+        else:  # Fallo el blanco
             print("¡Blanco fallado!")
-            fallos2 += 1
-            return True
+            fallos2 += 1  # si el jugador falla el blanco
+            matrizJugadas2[fila][columna] = 2
+            return True # true para que pase al sig jugador
 
-
+def estadisticas():
+    global win1
+    print(aciertos1)
+    print(aciertos2)
+    print(fallos1)
+    print(fallos2)
+    if win1 == True:
+        print("gano jugador 1")
+    else:
+        print("gano jugador 2")
 def start():
     popcion()
     global modalidad
@@ -205,9 +228,15 @@ def start():
     global nombreJugador2
     try:
         modalidad = int(input("Presione la opcion  1/2: "))
+        if modalidad != 1 and modalidad != 2:
+            print("opcion invalida")
+            start()
     except:
         print("Digite solo elementos numericos")
         modalidad = int(input("presione la opcion 1/2: "))
+        if modalidad != 1 and modalidad != 2:
+            print("opcion invalida")
+            start()
 
     while (modalidad != 1) and (modalidad != 2):
         print("Digite una opcion valida")
