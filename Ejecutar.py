@@ -1,48 +1,42 @@
 
 import random
 
-x = 0
+x = 0 #Eje en x
 y = 0
-campos = 0
+campos = 0 #El es total de campos que tiene la matriz
 nombreJugador1 = ""
 nombreJugador2 = ""
-
 matrizJugador1 = []
 matrizJugador2 = []
 numElementos = 0
 modalidad = 0
-
-
+#########################################################################################################################
 def popcion():
     print("╔════════════════╗", "\n", "   1. Jugador vs Jugador", "\n", "   2. Jugador vs Computador")
     print("╚════════════════╝")
-
 def pseleccion():
     print("╔══════════════════════╗", "\n", "  Seleccionar la cantidad elementos ", "\n",
           "   mínimo 1 elementos por partida")
     print("╚══════════════════════╝")
-
 def MatrizJuegador1():
     print("═════════ Jugador 1 ════════════")
     for i in matrizJugador1:
         print(i)
     print("════════════════════════════")
-
 def MatrizJugador2():
     print("═════════ Jugador 2 ════════════")
     for i in matrizJugador2:
         print(i)
     print("════════════════════════════")
-
-
+#################################################################################################################
 def matriz():
     global x
     global y
     global campos
     x = int(input("Digite la cantidad de filas: "))
     y = int(input("Digite la cantidad de columnas: "))
-    if x <= 1 or y <= 1:
-        print("Debe digitar un numero mayor a 1")
+    if x <= 2 or y <= 2:
+        print("Debe digitar un numero mayor a 2")
         matriz()
     campos = x * y
     for j in range(x):
@@ -69,8 +63,8 @@ def CantidadElementos():  # digita la cantidad de barcos y me valida que hayan m
 def colocarElementos():
     conta1 = 0
     conta2 = 0
-    fila=0
-    columna=0
+    fila = 0
+    columna = 0
     while conta1 < numElementos:  # coloca la cantidad de  elementos que el usuario ingreso
         MatrizJuegador1()
         try:
@@ -86,7 +80,7 @@ def colocarElementos():
         elif matrizJugador1[i - 1][j - 1] != 0:
             print("Campo esta ocupado")
         else:
-            matrizJugador1[i-1][j-1] = 1
+            matrizJugador1[i - 1][j - 1] = 1
             conta1 += 1
 
     if modalidad == 1:
@@ -94,25 +88,48 @@ def colocarElementos():
             MatrizJugador2()
             i = int(input("Digite la fila donde quiere colocar el elemento "))
             j = int(input("Digite la columna donde quiere colocar el elemento "))
-            if i < 0 or i > x or j < 0 or j > y :
+            if i < 0 or i > x or j < 0 or j > y:
                 print("Posicion invalida")
-            elif matrizJugador2[i-1][j-1] != 0:
+            elif matrizJugador2[i - 1][j - 1] != 0:
                 print("Campo esta ocupado")
             else:
-                matrizJugador2[i-1][j-1] = 1
+                matrizJugador2[i - 1][j - 1] = 1
                 conta2 += 1
     else:
         while conta2 < numElementos:
-
-            fila = random.randint(0,x-1)
-            columna = random.randint(0,y-1)
+            fila = random.randint(0 , x - 1)
+            columna = random.randint(0,y - 1)
             if matrizJugador2[fila][columna] == 0:
                 matrizJugador2[fila][columna] = 1
                 conta2 += 1
                 MatrizJugador2()
+def contarBarcos():
+    bandera = True
+    contar1 = 0
+    contar2 = 0
+    while bandera == True:
+        for i in matrizJugador1:
+            for j in i:
+                if j == 1:
+                    contar1 += 1
+        for i in matrizJugador2:
+            for j in i:
+                if j == 1:
+                    contar2 += 1
+
+        if contar1 or contar2 == 0:
+            bandera = False
 
 
+def turno():
+    print(nombreJugador1)
+    MatrizJuegador1()
 
+def ataque():
+    print("cosita")
+def estadisticas():
+    print("cosita")
+    
 def start():
     popcion()
     global modalidad
@@ -124,7 +141,7 @@ def start():
         print("Digite solo elementos numericos")
         modalidad = int(input("presione la opcion 1/2: "))
 
-    while (modalidad != 1 and modalidad != 2 ):
+    while (modalidad != 1) and (modalidad != 2):
         print("Digite una opcion valida")
         popcion()
 
@@ -142,6 +159,7 @@ def start():
 
 
 start()
-
-
-
+#matriz()
+#CantidadElementos()
+#colocarElementos()
+#contarBarcos()
