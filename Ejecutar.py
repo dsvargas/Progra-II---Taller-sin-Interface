@@ -1,7 +1,7 @@
 import random
 
 x = 0  # Eje en x
-y = 0
+y = 0  # Eje en y
 campos = 0  # El es total de campos que tiene la matriz
 nombreJugador1 = ""  # Nombre del primer jugador
 nombreJugador2 = ""  # Nombre del segundo jugador o de el compu
@@ -80,24 +80,26 @@ def matriz():
 
 def CantidadElementos():  # digita la cantidad de barcos y me valida que hayan mas de 1 elementos o uno
     # y que los elementos no sean mas que la mitad de todos los campos de la matriz
+
     pseleccion()
     global numElementos
     try:
         numElementos = int(input("Digite la cantidad de elementos: "))
     except:
-        numElementos = int(input("Digite solo elementos numericos: "))
+        CantidadElementos()
 
-    while (numElementos <= 1) and (numElementos > campos // 2):  # La cantidad de elementos tiene que ser mayor a 1
+    while (numElementos <= 1) and (numElementos < campos // 2):  # La cantidad de elementos tiene que ser mayor a 1
         # y menor que la mitad del total de campos de la matriz
         try:
             numElementos = int(input("Digite la cantidad de elementos mayor 1: "))
         except:
-            numElementos = int(input("Digite solo elementos numericos: "))
+            print("Digite solo elementos numericos: ")
+            CantidadElementos()
 
 
 def colocarElementos():
-    conta1 = 0
-    conta2 = 0
+    conta1 = 0  # cuenta cuantos barcos a colocado el jugador 1
+    conta2 = 0  # cuenta cuantos barcos a colocado el jugador 2
     while conta1 < numElementos:  # coloca la cantidad de  elementos que el usuario ingreso
         try:
             print("Jugador: ",nombreJugador1)
@@ -109,34 +111,37 @@ def colocarElementos():
 
         if i < 0 or i > x or j < 0 or j > y:  # valida que no se salga de rango de la matriz #########################################
             print("Posicion invalida")
-        elif matrizJugador1[i - 1][j - 1] != 0:
+        elif matrizJugador1[i - 1][j - 1] != 0:  # Si ya hay un elemento en esa posicion no deja colocarlo
             print("Campo esta ocupado")
         else:
-            matrizJugador1[i - 1][j - 1] = 1
-            conta1 += 1
-            MatrizJuegador1()
+            matrizJugador1[i - 1][j - 1] = 1  # Si el campo esta vacio y no se sale del rango coloca el elemnto
+            conta1 += 1  # Coloco un elemeto ya
+            MatrizJuegador1()  # vista de la matriz del jugador
 
-    if modalidad == 1:
-        while conta2 < numElementos:
-            print("Jugador: ",nombreJugador2)
-            i = int(input("Digite la fila donde quiere colocar el elemento "))
-            j = int(input("Digite la columna donde quiere colocar el elemento "))
+    if modalidad == 1:  # si modalidad es igual a uno quiere decir que hay dos jugadores
+        while conta2 < numElementos:  # Mientras el contador sea menor que el num de elmentos
+            print("Jugador: ",nombreJugador2)  # Nombre del jugador
+            try:
+                i = int(input("Digite la fila donde quiere colocar el elemento "))
+                j = int(input("Digite la columna donde quiere colocar el elemento "))
+            except:
+                print("Digite valores numericos")
             if (i < 0) or (i > x) or (j < 0) or (j > y):
                 print("Posicion invalida")
-            elif matrizJugador2[i - 1][j - 1] != 0:
+            elif matrizJugador2[i - 1][j - 1] != 0:  # Si ya hay un elemento en esa posicion no deja colocarlo
                 print("Campo esta ocupado")
             else:
-                matrizJugador2[i - 1][j - 1] = 1
-                conta2 += 1
-                MatrizJugador2()
+                matrizJugador2[i - 1][j - 1] = 1 # Si el campo esta vacio y no se sale del rango coloca el elemnto
+                conta2 += 1  # aumenta el contador
+                MatrizJugador2()  # Vista de la matriz del jugador
     else:
-        while conta2 < numElementos:
-            fila = random.randint(0, x - 1)
-            columna = random.randint(0, y - 1)
-            if matrizJugador2[fila][columna] == 0:
-                matrizJugador2[fila][columna] = 1
-                conta2 += 1
-        MatrizJugador2()
+        while conta2 < numElementos:  # Cuando el segundo jugador es la compu coloca los elementos a lo ramdom
+            fila = random.randint(0, x - 1)  # define una fila a lo random
+            columna = random.randint(0, y - 1)  # define una columna a lo random
+            if matrizJugador2[fila][columna] == 0:  #si la columna y la fila es un campo vacio
+                matrizJugador2[fila][columna] = 1  # le coloca un 1 en esa fila y columna
+                conta2 += 1 # aumenta el contador
+        MatrizJugador2()  # Vista de la matriz del jugador
 
 
 def turnos():
@@ -145,8 +150,8 @@ def turnos():
     global aciertos2
     global fila
     global columna
-    win1 = False
-    win2 = False  # variables para saber quien gana
+    global win1
+    global win2
     jugador1 = False
     jugador2 = False  # utilizadas para saber el turno del juegador
 
@@ -155,10 +160,12 @@ def turnos():
         while jugador1 == False and win1 == False and win2 == False:  # Mientras jugador dos no haya ganado
             print("Turno jugador ", nombreJugador1)  # Nombre del jugador 1
             Matrizjugada1()  # Imprime una matriz para ver donde se van colocando las bombas
-            fila = int(input("Indique la fila donde desea tirar la bomba: "))  # Indica la fila donde se coloca la bomba
-            columna = int(input("Indique la columna donde desea tirar la bomba:"))  # Indica la columna donde se coloca la bomba
-            if fila > len(matrizJugador2) or columna > len(
-                    matrizJugador2[0]) or fila == 0 or columna == 0:  # Si se sale de el rango de la matriz
+            try:
+                fila = int(input("Indique la fila donde desea tirar la bomba: "))  # Indica la fila donde se coloca la bomba
+                columna = int(input("Indique la columna donde desea tirar la bomba:"))  # Indica la columna donde se coloca la bomba
+            except:
+                print("Digite solo elementos")
+            if fila > len(matrizJugador2) or columna > len(matrizJugador2[0]) or fila == 0 or columna == 0:  # Si se sale de el rango de la matriz
                 print("La posicion no es valida")  # no hace nada
             else:  # si entra en el rango de la matriz
                 if jugador1 == False:  # le da permiso al jugador1 para poner la bomba
@@ -172,9 +179,11 @@ def turnos():
             while jugador2 == False:  # le da permiso para jugar al jugador 2
                 print("Turno jugador ", nombreJugador2)  # nombre del jugador
                 Matrizjugada2() # Imprime una matriz para ver donde se colocan las bombas
-                fila = int(
-                    input("Indique la fila donde desea tirar la bomba: "))  # Indica la fila donde se coloca la bomba
-                columna = int(input("Indique la columna donde desea tirar la bomba:"))  # Indica la columna donde se coloca la bomba
+                try:
+                    fila = int(input("Indique la fila donde desea tirar la bomba: "))  # Indica la fila donde se coloca la bomba
+                    columna = int(input("Indique la columna donde desea tirar la bomba:"))  # Indica la columna donde se coloca la bomba
+                except:
+                    print("Solo elementos numericos")
                 if fila > len(matrizJugador1) or columna > len(matrizJugador1[0]):  # si se sale de el rango de la matriz
                     print("La posicion no es valida")  # no hace nada
                 else:  # si entra en el rango de la matriz
@@ -190,7 +199,7 @@ def turnos():
                 columna = random.randint(1, y - 1)
                 if fila > len(matrizJugador1) or columna > len(matrizJugador1[0]):
                     print("La posicion no es valida")
-                else:
+                elif matrizJugadas2[fila][columna] != 2:
                     jugador2 = ataque(2)
                     if jugador2 == False:
                         if (aciertos2 == numElementos):
@@ -237,16 +246,15 @@ def estadisticas():
     global win2
 
     if win1 == True:
-        print("╔══════════════════════╗","\n", "   VICTORIA",nombreJugador1,"\n","   Cantidad de aciertos: ",aciertos1,"\n","   Cantidad de Fallos: ",fallos1)
+        print("╔══════════════════════╗","\n", "   VICTORIA",nombreJugador1,"\n","   Cantidad de aciertos: ",aciertos1,"\n","   Cantidad de Fallos: ",fallos1,"\n","   DERROTA ",nombreJugador2,"\n","   Cantidad de aciertos: ",aciertos2,"\n","   Cantidad de Fallos: ",fallos2)
         print("╚══════════════════════╝")
     elif win2 == True:
-        print("╔══════════════════════╗","\n", "   VICTORIA",nombreJugador2,"\n","   Cantidad de aciertos: ",aciertos2,"\n","   Cantidad de Fallos: ",fallos2)
+        print("╔══════════════════════╗","\n", "   VICTORIA",nombreJugador2,"\n","   Cantidad de aciertos: ",aciertos2,"\n","   Cantidad de Fallos: ",fallos2, "   DERROTA ",nombreJugador1,"\n","   Cantidad de aciertos: ",aciertos1)
         print("╚══════════════════════╝")
     else:
         print("Cosita")
         print("   VICTORIA",nombreJugador1,"\n","   Cantidad de aciertos: ",aciertos1,"\n","   Cantidad de Fallos: ",fallos1)
         print("   VICTORIA",nombreJugador2,"\n","   Cantidad de aciertos: ",aciertos2,"\n","   Cantidad de Fallos: ",fallos2)
-
 
 
 def start():
@@ -282,5 +290,7 @@ def start():
         CantidadElementos()
         colocarElementos()
     turnos()
+    nulo = input("presione cualquier tecla para volver a empezar")
+    start()
 
 start()
