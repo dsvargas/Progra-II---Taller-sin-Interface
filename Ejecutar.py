@@ -121,7 +121,7 @@ def colocarElementos():
             print("Jugador: ",nombreJugador2)
             i = int(input("Digite la fila donde quiere colocar el elemento "))
             j = int(input("Digite la columna donde quiere colocar el elemento "))
-            if i < 0 or i > x or j < 0 or j > y:
+            if (i < 0) or (i > x) or (j < 0) or (j > y):
                 print("Posicion invalida")
             elif matrizJugador2[i - 1][j - 1] != 0:
                 print("Campo esta ocupado")
@@ -156,8 +156,7 @@ def turnos():
             print("Turno jugador ", nombreJugador1)  # Nombre del jugador 1
             Matrizjugada1()  # Imprime una matriz para ver donde se van colocando las bombas
             fila = int(input("Indique la fila donde desea tirar la bomba: "))  # Indica la fila donde se coloca la bomba
-            columna = int(
-                input("Indique la columna donde desea tirar la bomba:"))  # Indica la columna donde se coloca la bomba
+            columna = int(input("Indique la columna donde desea tirar la bomba:"))  # Indica la columna donde se coloca la bomba
             if fila > len(matrizJugador2) or columna > len(
                     matrizJugador2[0]) or fila == 0 or columna == 0:  # Si se sale de el rango de la matriz
                 print("La posicion no es valida")  # no hace nada
@@ -176,12 +175,11 @@ def turnos():
                 fila = int(
                     input("Indique la fila donde desea tirar la bomba: "))  # Indica la fila donde se coloca la bomba
                 columna = int(input("Indique la columna donde desea tirar la bomba:"))  # Indica la columna donde se coloca la bomba
-                if fila >= len(matrizJugador1) or columna >= len(matrizJugador1[0]):  # si se sale de el rango de la matriz
+                if fila > len(matrizJugador1) or columna > len(matrizJugador1[0]):  # si se sale de el rango de la matriz
                     print("La posicion no es valida")  # no hace nada
                 else:  # si entra en el rango de la matriz
                     if jugador2 == False:  # le da permiso al jugador 2 para poner la bomba
                         jugador2 = ataque(2)  #ver si el jugador acerto y llama a ataque
-                        aciertos2 += 1  #suma los aciertos del jugador 2
                     if (aciertos2 == numElementos):
                         win2 = True
                         break
@@ -190,7 +188,7 @@ def turnos():
                 print("Turno jugador  Computadora")
                 fila = random.randint(1, x - 1)
                 columna = random.randint(1, y - 1)
-                if fila >= len(matrizJugador1) or columna >= len(matrizJugador1[0]):
+                if fila > len(matrizJugador1) or columna > len(matrizJugador1[0]):
                     print("La posicion no es valida")
                 else:
                     jugador2 = ataque(2)
@@ -246,6 +244,8 @@ def estadisticas():
         print("╚══════════════════════╝")
     else:
         print("Cosita")
+        print("   VICTORIA",nombreJugador1,"\n","   Cantidad de aciertos: ",aciertos1,"\n","   Cantidad de Fallos: ",fallos1)
+        print("   VICTORIA",nombreJugador2,"\n","   Cantidad de aciertos: ",aciertos2,"\n","   Cantidad de Fallos: ",fallos2)
 
 
 
