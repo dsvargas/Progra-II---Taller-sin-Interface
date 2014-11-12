@@ -199,7 +199,7 @@ def turnos():
                 columna = random.randint(1, y - 1)
                 if fila > len(matrizJugador1) or columna > len(matrizJugador1[0]):
                     print("La posicion no es valida")
-                elif matrizJugadas2[fila][columna] != 2:
+                elif matrizJugadas2[fila - 1][columna - 1] != 2:
                     jugador2 = ataque(2)
                     if jugador2 == False:
                         if (aciertos2 == numElementos):
@@ -249,8 +249,12 @@ def estadisticas():
         print("╔══════════════════════╗","\n", "   VICTORIA",nombreJugador1,"\n","   Cantidad de aciertos: ",aciertos1,"\n","   Cantidad de Fallos: ",fallos1,"\n","   DERROTA ",nombreJugador2,"\n","   Cantidad de aciertos: ",aciertos2,"\n","   Cantidad de Fallos: ",fallos2)
         print("╚══════════════════════╝")
     elif win2 == True:
-        print("╔══════════════════════╗","\n", "   VICTORIA",nombreJugador2,"\n","   Cantidad de aciertos: ",aciertos2,"\n","   Cantidad de Fallos: ",fallos2, "   DERROTA ",nombreJugador1,"\n","   Cantidad de aciertos: ",aciertos1)
-        print("╚══════════════════════╝")
+        if modalidad == 2:
+            print("╔══════════════════════╗","\n", "   VICTORIA"," Computador", "\n", "   Cantidad de aciertos: ",aciertos2,"\n","   Cantidad de Fallos: ",fallos2,"\n", "   DERROTA ",nombreJugador1,"\n","   Cantidad de aciertos: ",aciertos1)
+            print("╚══════════════════════╝")
+        else:
+            print("╔══════════════════════╗","\n", "   VICTORIA",nombreJugador2, "\n", "   Cantidad de aciertos: ",aciertos2,"\n","   Cantidad de Fallos: ",fallos2,"\n", "   DERROTA ",nombreJugador1,"\n","   Cantidad de aciertos: ",aciertos1)
+            print("╚══════════════════════╝")
     else:
         print("Cosita")
         print("   VICTORIA",nombreJugador1,"\n","   Cantidad de aciertos: ",aciertos1,"\n","   Cantidad de Fallos: ",fallos1)
@@ -262,6 +266,23 @@ def start():
     global modalidad
     global nombreJugador1
     global nombreJugador2
+    global x
+    global y   
+    global campos
+    global matrizJugador1 
+    global matrizJugador2  
+    global matrizJugadas1 
+    global matrizJugadas2 
+    global numElementos  
+    global win1 
+    global win2  
+    global fallos1
+    global aciertos1 
+    global fallos2 
+    global aciertos2
+    global fila
+    global columna
+    
     try:
         modalidad = int(input("Presione la opcion  1/2: "))
         if modalidad != 1 and modalidad != 2:
@@ -291,6 +312,25 @@ def start():
         colocarElementos()
     turnos()
     nulo = input("presione cualquier tecla para volver a empezar")
+    x = 0  
+    y = 0  
+    campos = 0  
+    nombreJugador1 = ""  
+    nombreJugador2 = ""  
+    matrizJugador1 = [] 
+    matrizJugador2 = [] 
+    matrizJugadas1 = []  
+    matrizJugadas2 = []  
+    numElementos = 0  
+    win1 = False  
+    win2 = False  
+    modalidad = 0 
+    fallos1 = 0
+    aciertos1 = 0
+    fallos2 = 0
+    aciertos2 = 0
+    fila = 0
+    columna = 0
     start()
 
 start()
